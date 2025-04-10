@@ -1,0 +1,245 @@
+openapi: 3.0.0
+paths:
+  /users/{id}:
+    patch:
+      operationId: UsersController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserDto'
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Users
+  /auth/sign-up:
+    post:
+      operationId: AuthController_signUp
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Auth
+  /auth/sign-in:
+    post:
+      operationId: AuthController_signIn
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInDto'
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Auth
+  /auth/sign-out:
+    post:
+      operationId: AuthController_signOut
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Auth
+  /auth/verify:
+    get:
+      operationId: AuthController_verify
+      parameters:
+        - name: code
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Auth
+  /auth/session:
+    get:
+      operationId: AuthController_getSessionInfo
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Auth
+  /tracks:
+    get:
+      operationId: TracksController_getAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Tracks
+    post:
+      operationId: TracksController_create
+      parameters: []
+      requestBody:
+        required: true
+        description: Upload track data
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateTrackDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Tracks
+  /tracks/by-artist/{id}:
+    get:
+      operationId: TracksController_getByArtist
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Tracks
+  /tracks/{id}:
+    patch:
+      operationId: TracksController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Upload track data
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateTrackDto'
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Tracks
+    delete:
+      operationId: TracksController_delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Tracks
+info:
+  title: Spotify
+  description: Spotify API
+  version: 1.0.0
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas:
+    UpdateUserDto:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        avatar:
+          type: string
+          format: binary
+        description:
+          type: string
+        country:
+          type: string
+      required:
+        - name
+        - email
+        - avatar
+        - description
+        - country
+    SignUpDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test@gmail.com
+        name:
+          type: string
+          example: test
+        password:
+          type: string
+          example: '123123'
+      required:
+        - email
+        - name
+        - password
+    SignInDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test@gmail.com
+        password:
+          type: string
+          example: '123123'
+      required:
+        - email
+        - password
+    CreateTrackDto:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Track
+        audio:
+          type: string
+          format: binary
+        picture:
+          type: string
+          format: binary
+      required:
+        - title
+        - audio
+        - picture
+    UpdateTrackDto:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Track
+        audio:
+          type: string
+          format: binary
+        picture:
+          type: string
+          format: binary
+      required:
+        - title
+        - audio
+        - picture

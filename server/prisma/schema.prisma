@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name        String
+  email       String    @unique
+  password    String
+  avatarUrl   String    @map("avatar_url")
+  country     String?
+  description String?
+  role        UserRole  @default(USER)
+  isVerified  DateTime? @map("is_verified")
+
+  tracks     Track[]     @relation("UserTracks")
+  albums     Album[]
+  favorites  Track[]     @relation("UserFavorites")
+  playlists  Playlist[]
+  verifycode VerifyCode?
+
+  @@map("users")
+}
+
+model VerifyCode {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  code   String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique @map("user_id")
+
+  @@unique([userId, code])
+  @@map("verify_code")
+}
+
+model Track {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  title   String
+  listens Int    @default(0)
+  picture String
+  audio   String
+
+  artists     User[]     @relation("UserTracks")
+  favoritedBy User[]     @relation("UserFavorites")
+  categories  Category[]
+  playlists   Playlist[]
+  Album       Album?     @relation(fields: [albumId], references: [id])
+  albumId     String?
+
+  @@map("tracks")
+}
+
+model Album {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  title  String
+  tracks Track[]
+
+  artists User[]
+
+  @@map("albums")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name   String  @unique
+  tracks Track[]
+
+  @@map("categories")
+}
+
+model Playlist {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  title   String
+  tracks  Track[]
+  picture String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
+
+  @@map("playlists")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
