@@ -20,6 +20,12 @@ export class UsersService {
   async findById(id: string) {
     return this.prisma.user.findFirst({ where: { id } });
   }
+  async getProfile(userId: string) {
+    return this.prisma.user.findFirst({
+      where: { id: userId },
+      select: { avatarUrl: true, name: true, isVerified: true, country: true },
+    });
+  }
 
   async create(email: string, name: string, password: string) {
     return this.prisma.user.create({

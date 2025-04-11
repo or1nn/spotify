@@ -60,6 +60,16 @@ export const usersControllerUpdate = (
   );
 };
 
+export const usersControllerGetProfile = (
+  id: string,
+  options?: SecondParameter<typeof createInstance>,
+) => {
+  return createInstance<void>(
+    { url: `/users/get-profile/${id}`, method: "GET" },
+    options,
+  );
+};
+
 export const authControllerSignUp = (
   signUpDto: BodyType<SignUpDto>,
   options?: SecondParameter<typeof createInstance>,
@@ -151,6 +161,15 @@ export const tracksControllerGetByArtist = (
   );
 };
 
+export const tracksControllerGetFavorites = (
+  options?: SecondParameter<typeof createInstance>,
+) => {
+  return createInstance<void>(
+    { url: `/tracks/favorites`, method: "GET" },
+    options,
+  );
+};
+
 export const tracksControllerUpdate = (
   id: string,
   updateTrackDto: BodyType<UpdateTrackDto>,
@@ -185,6 +204,9 @@ export const tracksControllerDelete = (
 export type UsersControllerUpdateResult = NonNullable<
   Awaited<ReturnType<typeof usersControllerUpdate>>
 >;
+export type UsersControllerGetProfileResult = NonNullable<
+  Awaited<ReturnType<typeof usersControllerGetProfile>>
+>;
 export type AuthControllerSignUpResult = NonNullable<
   Awaited<ReturnType<typeof authControllerSignUp>>
 >;
@@ -208,6 +230,9 @@ export type TracksControllerCreateResult = NonNullable<
 >;
 export type TracksControllerGetByArtistResult = NonNullable<
   Awaited<ReturnType<typeof tracksControllerGetByArtist>>
+>;
+export type TracksControllerGetFavoritesResult = NonNullable<
+  Awaited<ReturnType<typeof tracksControllerGetFavorites>>
 >;
 export type TracksControllerUpdateResult = NonNullable<
   Awaited<ReturnType<typeof tracksControllerUpdate>>

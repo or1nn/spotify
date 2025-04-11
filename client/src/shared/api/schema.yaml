@@ -20,6 +20,20 @@ paths:
           description: ''
       tags:
         - Users
+  /users/get-profile/{id}:
+    get:
+      operationId: UsersController_getProfile
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Users
   /auth/sign-up:
     post:
       operationId: AuthController_signUp
@@ -115,6 +129,15 @@ paths:
           in: path
           schema:
             type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Tracks
+  /tracks/favorites:
+    get:
+      operationId: TracksController_getFavorites
+      parameters: []
       responses:
         '200':
           description: ''

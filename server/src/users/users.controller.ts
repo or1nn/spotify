@@ -1,4 +1,11 @@
-import { Body, Controller, Param, Patch, UploadedFile } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  UploadedFile,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -16,5 +23,9 @@ export class UsersController {
     @GetSession('id') id: string,
   ) {
     return this.usersService.update(id, userId, body, file);
+  }
+  @Get('/get-profile/:id')
+  getProfile(@Param('id') userId: string) {
+    return this.usersService.getProfile(userId);
   }
 }

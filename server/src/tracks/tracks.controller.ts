@@ -30,6 +30,9 @@ export class TracksController {
   getByArtist(@Param('id') artistId: string) {
     return this.tracksService.getByArtist(artistId);
   }
+  @Get('favorites') getFavorites(@GetSession('id') userId: string) {
+    return this.tracksService.getFavorites(userId);
+  }
   @UseInterceptors(
     FileFieldsInterceptor([
       { name: 'picture', maxCount: 1 },

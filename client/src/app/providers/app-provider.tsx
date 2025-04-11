@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "../store";
 
 import { HeroProvider } from "./hero-provider";
+import { AuthProvider } from "./auth-provider";
 
 import { queryClient } from "@/shared/api/query-client";
 
@@ -14,7 +15,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <HeroProvider themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          {children}
+          <AuthProvider>{children}</AuthProvider>
         </HeroProvider>
       </QueryClientProvider>
     </Provider>

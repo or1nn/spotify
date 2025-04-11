@@ -43,8 +43,8 @@ export class AuthController {
   }
   @ApiOkResponse()
   @Post('sign-out')
-  signOut(@Res() res: Response) {
-    this.cookieService.removeToken(res);
+  signOut(@Res({ passthrough: true }) res: Response) {
+    return this.cookieService.removeToken(res);
   }
   @ApiOkResponse()
   @Get('verify')

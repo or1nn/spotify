@@ -11,6 +11,7 @@ export class CookieService {
     });
   }
   removeToken(res: Response) {
-    res.clearCookie(CookieService.ACCESS_TOKEN);
+    res.clearCookie(CookieService.ACCESS_TOKEN, { httpOnly: true });
+    return 'cookie was cleared';
   }
 }

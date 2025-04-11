@@ -11,6 +11,13 @@ export class TracksService {
   getAll() {
     return this.prisma.track.findMany();
   }
+  async getFavorites(userId: string) {
+    const user = await this.prisma.user.findFirst({
+      where: { id: userId },
+      include: { favorites: { include: { artists: true } } },
+    });
+    return user?.favorites;
+  }
   getByArtist(artistId: string) {
     return this.prisma.track.findMany({
       where: { artists: { some: { id: artistId } } },
