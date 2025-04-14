@@ -29,7 +29,7 @@ export class UsersService {
 
   async create(email: string, name: string, password: string) {
     return this.prisma.user.create({
-      data: { email, name, password, avatarUrl: 'test.png' },
+      data: { email, name, password },
     });
   }
 

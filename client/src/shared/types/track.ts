@@ -5,6 +5,7 @@ export interface ITrack {
   id: string;
   artists: IUser[];
   title: string;
+  listens: number;
   audio: string;
   picture: string;
   album: IAlbum;

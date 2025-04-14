@@ -15,6 +15,7 @@ import { useAppSelector } from "@/shared/lib/redux";
 export const Profile = () => {
   const { logout } = useLogout();
   const id = useAppSelector((state) => state.session.session?.id);
+  const avatarUrl = useAppSelector((state) => state.session.session?.avatarUrl);
   const router = useRouter();
 
   return (
@@ -23,7 +24,7 @@ export const Profile = () => {
         <img
           alt="profiel"
           className="w-10 h-10 cursor-pointer rounded-full"
-          src="http://localhost:5000/static/default-avatar.jpg"
+          src={`http://localhost:5000/static/avatars/${avatarUrl}`}
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">

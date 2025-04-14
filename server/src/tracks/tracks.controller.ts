@@ -26,6 +26,7 @@ export class TracksController {
   getAll() {
     return this.tracksService.getAll();
   }
+  @ApiOkResponse()
   @Get('by-artist/:id')
   getByArtist(@Param('id') artistId: string) {
     return this.tracksService.getByArtist(artistId);

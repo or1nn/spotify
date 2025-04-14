@@ -21,7 +21,7 @@ model User {
   name        String
   email       String    @unique
   password    String
-  avatarUrl   String    @map("avatar_url")
+  avatarUrl   String    @default("default-avatar.jpg") @map("avatar_url")
   country     String?
   description String?
   role        UserRole  @default(USER)
@@ -32,8 +32,22 @@ model User {
   favorites  Track[]     @relation("UserFavorites")
   playlists  Playlist[]
   verifycode VerifyCode?
+  following  Follows[]   @relation("follower")
+  followers  Follows[]   @relation("following")
 
   @@map("users")
+}
+
+model Follows {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  followingId String   @map("following_id")
+  following   User     @relation("following", fields: [followingId], references: [id])
+  followerId  String   @map("follower_id")
+  follower    User     @relation("follower", fields: [followerId], references: [id])
+
+  @@map("follows")
 }
 
 model VerifyCode {

@@ -9,10 +9,10 @@ import {
 } from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
-import { Clock } from "lucide-react";
+import { AudioLines, Clock } from "lucide-react";
 
 import { tracksControllerGetFavorites } from "@/shared/api/generated";
-import { useAppDispatch } from "@/shared/lib/redux";
+import { useAppDispatch, useAppSelector } from "@/shared/lib/redux";
 import { playerSlice } from "@/entities/player";
 import { ITrack } from "@/shared/types/track";
 
@@ -23,6 +23,11 @@ export const columns = [
   { name: "Date Added", uid: "date", sortable: true },
   { name: <Clock className="w-5 h-5" />, uid: "duration" },
 ];
+const ColId = ({ id }: { playId: string; id: string }) => {
+  const playId = useAppSelector((state) => state.player.active?.id);
+
+  return <>{playId == id ? <AudioLines className="text-primary"/> : "1"}</>;
+};
 
 export const CollectionsPage = () => {
   const { data } = useQuery({
@@ -35,7 +40,7 @@ export const CollectionsPage = () => {
 
     switch (columnKey) {
       case "id":
-        return 1;
+        return <ColId id={track.id} />;
       case "title":
         return (
           <div className="grid grid-rows-2 grid-cols-[60px_1fr]">
